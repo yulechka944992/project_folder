@@ -46,6 +46,10 @@ class Aeroplanes:
         return self._callsign
 
     @property
+    def country(self):
+        return self._country
+
+    @property
     def velocity(self):
         return self._velocity
 
