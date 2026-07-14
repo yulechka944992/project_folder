@@ -14,29 +14,22 @@ class APIAdapter(ApiBase):
         if not country or not country.strip():
             raise ValueError("Название страны не может быть пустым")
 
-        headers_nominatim = {
-            'User-Agent': 'test-app'
-        }
+        headers_nominatim = {"User-Agent": "test-app"}
 
         params_nominatim = {
-            'country': country,
-            'format': 'json',
-            'limit': 1,
+            "country": country,
+            "format": "json",
+            "limit": 1,
         }
-        response = requests.get(
-            self.nominatim_url,
-            params=params_nominatim,
-            headers=headers_nominatim
-        )
+        response = requests.get(self.nominatim_url, params=params_nominatim, headers=headers_nominatim)
         response.raise_for_status()
         data = response.json()
 
         if not data:
             raise ValueError(f"Страна '{country}' не найдена")
 
-        bounds = data[0].get('boundingbox')
+        bounds = data[0].get("boundingbox")
         return bounds
-
 
     def get_aircraft(self, bounds):
         """Получает данные о самолетах в указанных границах"""
@@ -44,16 +37,14 @@ class APIAdapter(ApiBase):
             raise ValueError("Не указаны границы области")
 
         params_opensky = {
-            'lamin': bounds[0],
-            'lamax': bounds[1],
-            'lomin': bounds[2],
-            'lomax': bounds[3],
+            "lamin": bounds[0],
+            "lamax": bounds[1],
+            "lomin": bounds[2],
+            "lomax": bounds[3],
         }
 
-        response = requests.get(
-            self.opensky_url, params=params_opensky)
+        response = requests.get(self.opensky_url, params=params_opensky)
         response.raise_for_status()
-
 
         self.aeroplanes = response.json()
         return self.aeroplanes

@@ -1,5 +1,6 @@
 class Aeroplanes:
     """Класс для работы с информацией о самолетах"""
+
     def __init__(self, callsign, country, velocity, baro_altitude):
         """Конструктор с валидацией атрибутов"""
         if velocity is not None and velocity < 0:
@@ -12,18 +13,25 @@ class Aeroplanes:
         self._velocity = velocity
         self._baro_altitude = baro_altitude
 
-
     @classmethod
     def from_api_data(cls, api_data):
         """Преобразует список данных из API в список объектов Aeroplane"""
         air_list = []
 
         for item in api_data:
+            velocity = item[9]
+            if velocity is None or velocity < 0:
+                velocity = 0.0
+
+            baro_altitude = item[7]
+            if baro_altitude is None or baro_altitude < 0:
+                baro_altitude = 0.0
+
             airplane = cls(
                 callsign=item[1],
                 country=item[2],
-                velocity=item[9] if item[9] is not None else 0.0,
-                baro_altitude=item[7] if item[7] is not None else 0.0
+                velocity=velocity,
+                baro_altitude=baro_altitude
             )
             air_list.append(airplane)
 
@@ -33,13 +41,21 @@ class Aeroplanes:
         """Сравнение по скорости"""
         if not isinstance(other, Aeroplanes):
             return NotImplemented
-        return self._velocity < other._velocity
+
+        self_v = self._velocity if self._velocity is not None else 0.0
+        other_v = other._velocity if other._velocity is not None else 0.0
+
+        return self_v < other_v
 
     def __gt__(self, other):
         """Сравнение по высоте"""
         if not isinstance(other, Aeroplanes):
             return NotImplemented
-        return self._baro_altitude > other._baro_altitude
+
+        self_a = self._baro_altitude if self._baro_altitude is not None else 0.0
+        other_a = other._baro_altitude if other._baro_altitude is not None else 0.0
+
+        return self_a > other_a
 
     @property
     def callsign(self):
