@@ -104,5 +104,6 @@ class JSONSaver(BaseFile):
         self._write_data([])
 
     def __str__(self):
+        """Строковое представление о загрузке"""
         count_air = len(self.get_all_aeroplanes())
         return f"JSONSaver({self.file_path}) - {count_air} самолетов"
