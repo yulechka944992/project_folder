@@ -2,6 +2,7 @@ import pytest
 
 from src.aeroplanes import Aeroplanes
 
+
 class TestAeroplanes:
     """Тесты для класса Aeroplane"""
 
@@ -13,6 +14,7 @@ class TestAeroplanes:
 
     def test_aeroplanes_velocity_error(self):
         """Тест с отрицательной скоростью"""
+
     with pytest.raises(ValueError) as e:
         Aeroplanes("ABC123", "Russia", -100, 10000.0)
 
@@ -63,9 +65,7 @@ class TestAeroplanes:
 
     def test_from_api_empty_value(self):
         """"""
-        api_data = [
-            ['abc123','ABC123','Russia', None, None, None, None, None, None, None]
-        ]
+        api_data = [["abc123", "ABC123", "Russia", None, None, None, None, None, None, None]]
         planes = Aeroplanes.from_api_data(api_data)
         assert len(planes) == 1
         assert planes[0].callsign == "ABC123"
