@@ -7,11 +7,13 @@ from src.json_saver import JSONSaver
 
 def clear_screen():
     """Очищает экран консоли"""
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
+
 
 def pause():
     """Пауза перед продолжением"""
     input("\n▶️ Нажмите Enter, чтобы продолжить...")
+
 
 def user_interaction():
     """Главная функция взаимодействия с пользователем"""
@@ -59,14 +61,14 @@ def user_interaction():
                     pause()
                     continue
 
-                states = raw_data.get('states') or []
+                states = raw_data.get("states") or []
                 if not states:
                     print(f"В воздушном пространстве '{country}' нет самолетов")
                     pause()
                     continue
 
                 max_aeroplanes = 300
-                total =len(states)
+                total = len(states)
                 print(f"Всего в воздушном пространстве: {total} самолетов")
 
                 if total > max_aeroplanes:
@@ -83,7 +85,6 @@ def user_interaction():
                 print(f"Ошибка: {e}")
             pause()
 
-
         elif choice == "2":
             all_planes = storage.get_all_aeroplanes()
 
@@ -95,7 +96,6 @@ def user_interaction():
                 for i, plane in enumerate(all_planes, 1):
                     print(f"{i}. {plane}")
             pause()
-
 
         elif choice == "3":
             all_planes = storage.get_all_aeroplanes()
@@ -115,8 +115,8 @@ def user_interaction():
                 sorted_planes = sorted(
                     all_planes,
                     key=lambda plane: plane.baro_altitude if plane.baro_altitude is not None else 0,
-                    reverse=True
-                                       )
+                    reverse=True,
+                )
                 top_n = sorted_planes[:n]
 
                 print(f"\nТОП {len(top_n)} САМОЛЕТОВ ПО ВЫСОТЕ:")
@@ -127,7 +127,6 @@ def user_interaction():
             except ValueError:
                 print("Введите корректное число")
             pause()
-
 
         elif choice == "4":
             country = input("Введите страну регистрации для фильтрации: ").strip()
@@ -147,10 +146,9 @@ def user_interaction():
                     print(f"{i}. {plane}")
             pause()
 
-
         elif choice == "5":
             confirm = input("Вы уверены, что хотите удалить все данные? (да/нет): ").strip().lower()
-            if confirm == 'да':
+            if confirm == "да":
                 storage.clear_all()
                 print("Все данные удалены")
             else:
